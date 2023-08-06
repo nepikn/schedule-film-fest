@@ -8,15 +8,15 @@ function App() {
 
 function Calendar() {
   const [time, setTime] = useState(new Date());
-  const [inputVal, setInputVal] = useState(
-    time.getFullYear() + "-" + time.getDate()
-  );
+  // const [inputVal, setInputVal] = useState(
+  //   time.getFullYear() + "-" + time.getDate()
+  // );
   return (
     <>
       <input
         type="text"
-        value={inputVal}
-        onInput={(e) => setInputVal(e.target.value)}
+        defaultValue={time.getFullYear() + "-" + time.getDate()}
+        // onInput={(e) => setInputVal(e.target.value)}
         onChange={(e) => setTime(new Date(e.target.value))}
       />
       <Month firstDayWeek={time.getDay() - (time.getDate() % 7) + 1} />
