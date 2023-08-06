@@ -1,0 +1,14 @@
+.calendar {
+  display: flex;
+  flex-direction: column;
+}
+
+.month {
+  flex-grow: 1;
+  grid-template-columns: repeat(7, auto);
+}
+
+.month > li {
+  border-block-start: 1px solid grey;
+  border-inline-start: 1px solid silver;
+}

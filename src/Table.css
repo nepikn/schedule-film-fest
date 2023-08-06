@@ -1,5 +1,11 @@
-[role="row"] {
-  list-style: none;
-  display: grid;
-  grid-template-columns: repeat(5, 10em);
+[role="table"] {
+}
+
+.info {
+  grid-template-columns: repeat(5, 1fr);
+  border-block-start: 1px solid grey;
+}
+
+.info > li {
+  border-inline-start: 1px solid silver;
 }
