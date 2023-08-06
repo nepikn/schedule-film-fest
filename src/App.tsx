@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { startOfMonth, getDaysInMonth } from "date-fns";
 // import Calendar from "react-calendar";
 import "./App.css";
 
@@ -19,17 +20,26 @@ function Calendar() {
         // onInput={(e) => setInputVal(e.target.value)}
         onChange={(e) => setTime(new Date(e.target.value))}
       />
-      <Month firstDayWeek={time.getDay() - (time.getDate() % 7) + 1} />
+      <Month
+        firstDayWeek={startOfMonth(time).getDay()}
+        lastDay={getDaysInMonth(time)}
+      />
     </>
   );
 }
 
-function Month({ firstDayWeek }: { firstDayWeek: number }) {
+function Month({
+  firstDayWeek,
+  lastDay,
+}: {
+  firstDayWeek: number;
+  lastDay: number;
+}) {
   let day = 1;
   return (
     <div className="month">
-      {new Array(35).fill("").map((_, i) => (
-        <div>{i < firstDayWeek % 7 ? "" : day++}</div>
+      {new Array(firstDayWeek + lastDay).fill("").map((_, i) => (
+        <div>{i < firstDayWeek ? "" : day++}</div>
       ))}
     </div>
   );
