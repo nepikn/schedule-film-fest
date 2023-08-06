@@ -39,7 +39,7 @@ function Month({
   return (
     <div className="month">
       {new Array(firstDayWeek + lastDay).fill("").map((_, i) => (
-        <div>{i < firstDayWeek ? "" : day++}</div>
+        <div key={i}>{i < firstDayWeek ? "" : day++}</div>
       ))}
     </div>
   );
