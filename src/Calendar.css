@@ -8,16 +8,19 @@
     text-align: center;
   }
 
-  & ul {
-    flex-grow: 1;
-    grid-template-columns: repeat(7, 1fr);
+  & .table {
+    & .grid {
+      grid-template-columns: repeat(7, 1fr);
 
-    &.week {
-      font-weight: bold;
+      & .cell {
+        text-align: end;
+        line-height: 1;
+        padding: 1ex;
+
+        &:nth-child(7n + 1) {
+          border-inline-start: none;
+        }
+      }
     }
-  }
-
-  & li.cell:nth-child(7n + 1) {
-    border-inline-start: none;
   }
 }

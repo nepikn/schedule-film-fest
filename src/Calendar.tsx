@@ -33,7 +33,7 @@ function Month({
   let day = 1;
   return (
     <div className="table">
-      <ul className="grid week">
+      <ul className="row grid week">
         <li>Sun</li>
         <li>Mon</li>
         <li>Tue</li>
