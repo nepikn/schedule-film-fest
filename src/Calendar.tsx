@@ -8,7 +8,7 @@ export default function Calendar() {
   //   time.getFullYear() + "-" + time.getDate()
   // );
   return (
-    <>
+    <div className="calendar">
       <input
         type="text"
         defaultValue={time.getFullYear() + "-" + time.getDate()}
@@ -19,7 +19,7 @@ export default function Calendar() {
         firstDayWeek={startOfMonth(time).getDay()}
         lastDay={getDaysInMonth(time)}
       />
-    </>
+    </div>
   );
 }
 
@@ -32,12 +32,23 @@ function Month({
 }) {
   let day = 1;
   return (
-    <ul role="table" className="month">
-      {[...Array(firstDayWeek + lastDay)].map((_, i) => (
-        <li key={i} role="cell">
-          <div>{i < firstDayWeek ? "" : day++}</div>
-        </li>
-      ))}
-    </ul>
+    <div className="table">
+      <ul className="grid week">
+        <li>Sun</li>
+        <li>Mon</li>
+        <li>Tue</li>
+        <li>Wed</li>
+        <li>Thu</li>
+        <li>Fri</li>
+        <li>Sat</li>
+      </ul>
+      <ul className="grid">
+        {[...Array(Math.ceil((firstDayWeek + lastDay) / 7) * 7)].map((_, i) => (
+          <li key={i} className="cell">
+            <div>{i < firstDayWeek ? "" : day < lastDay ? day++ : ""}</div>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }

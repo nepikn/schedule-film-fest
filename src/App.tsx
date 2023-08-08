@@ -27,10 +27,14 @@ function App() {
   const [filmInfos, setFilmInfos] = useState(new Array(9).fill(new FilmInfo()));
   return (
     <div className="body">
-      <div onChange={(e) => setFilmInfos(e)}>
+      <div
+        onChange={(e) => {
+          return false;
+        }}
+      >
         <Table filmInfos={filmInfos} />
       </div>
-      <div className="calendar">
+      <div>
         <Calendar />
       </div>
     </div>
