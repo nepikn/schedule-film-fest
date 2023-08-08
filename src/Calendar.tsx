@@ -1,9 +1,16 @@
 import { useState } from "react";
-import { startOfMonth, getDaysInMonth } from "date-fns";
+import {
+  eachWeekOfInterval,
+  eachDayOfInterval,
+  previousSunday,
+  // addDays,
+  endOfMonth,
+  endOfWeek,
+} from "date-fns";
 import "./Calendar.css";
 
 export default function Calendar() {
-  const [time, setTime] = useState(new Date());
+  const [monthStart, setMonthStart] = useState(new Date());
   // const [inputVal, setInputVal] = useState(
   //   time.getFullYear() + "-" + time.getDate()
   // );
@@ -11,26 +18,68 @@ export default function Calendar() {
     <div className="calendar">
       <input
         type="text"
-        defaultValue={time.getFullYear() + "-" + time.getDate()}
+        defaultValue={monthStart.getFullYear() + "-" + monthStart.getDate()}
         // onInput={(e) => setInputVal(e.target.value)}
-        onChange={(e) => setTime(new Date(e.target.value))}
+        onChange={(e) => setMonthStart(new Date(e.target.value))}
       />
       <Month
-        firstDayWeek={startOfMonth(time).getDay()}
-        lastDay={getDaysInMonth(time)}
+        firstDayWeek={monthStart.getDay()}
+        lastDate={endOfMonth(monthStart)}
+        monthStart={monthStart}
       />
     </div>
   );
 }
 
 function Month({
-  firstDayWeek,
-  lastDay,
+  // firstDayWeek,
+  // lastDate,
+  monthStart,
 }: {
   firstDayWeek: number;
-  lastDay: number;
+  lastDate: Date;
+  monthStart: Date;
 }) {
-  let day = 1;
+  // let date = previousSunday(monthStart);
+  // let day = firstDayWeek;
+  // const weeks = [];
+  // while (date.getTime() <= lastDate.getTime()) {
+  //   weeks.push(
+  //     <li key={date.getTime()}>
+  //       <ul className="grid week">
+  //         {new Array(7).fill("").map((_, i) => (
+  //           <li key={i} className="cell">
+  //             {date < monthStart ? "" : (date = addDays(date, 1)).getDate()}
+  //           </li>
+  //         ))}
+  //       </ul>
+  //     </li>
+  //   );
+  // }
+
+  const weeks = eachWeekOfInterval({
+    start: monthStart.getDay() ? previousSunday(monthStart) : monthStart,
+    end: endOfMonth(monthStart),
+  }).map((sun, i) => (
+    <li key={i}>
+      {
+        <ul className="grid week">
+          {eachDayOfInterval({ start: sun, end: endOfWeek(sun) }).map(
+            (date, i) => (
+              <li key={i} className="cell">
+                <div>
+                  {date.getMonth() == monthStart.getMonth()
+                    ? date.getDate()
+                    : ""}
+                </div>
+              </li>
+            )
+          )}
+        </ul>
+      }
+    </li>
+  ));
+
   return (
     <div className="table">
       <ul className="row grid week">
@@ -42,13 +91,7 @@ function Month({
         <li>Fri</li>
         <li>Sat</li>
       </ul>
-      <ul className="grid">
-        {[...Array(Math.ceil((firstDayWeek + lastDay) / 7) * 7)].map((_, i) => (
-          <li key={i} className="cell">
-            <div>{i < firstDayWeek ? "" : day < lastDay ? day++ : ""}</div>
-          </li>
-        ))}
-      </ul>
+      <ul className="grid month">{weeks}</ul>
     </div>
   );
 }

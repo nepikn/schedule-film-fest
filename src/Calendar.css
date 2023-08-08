@@ -9,8 +9,12 @@
   }
 
   & .table {
-    & .grid {
+    & .grid.week {
       grid-template-columns: repeat(7, 1fr);
+    }
+
+    & .grid.month {
+      grid-template-rows: repeat(6, max-content);
 
       & .cell {
         text-align: end;
