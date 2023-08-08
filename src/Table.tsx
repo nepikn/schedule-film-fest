@@ -7,25 +7,30 @@ export default function Table({ filmInfos }: { filmInfos: FilmInfo[] }) {
     const { name, timeStart, timeEnd, join } = filmInfo;
 
     return (
-      <ul key={i} role="row" className="info">
-        <li role="cell">
-          <div>{name}</div>
-        </li>
-        <li role="cell">
-          <div>{format(timeStart, "MM-dd")}</div>
-        </li>
-        <li role="cell">
-          <div>{format(timeStart, "HH:mm")}</div>
-        </li>
-        <li role="cell">
-          <div>{format(timeEnd, "HH:mm")}</div>
-        </li>
-        <li role="cell">
+      <tr key={i}>
+        <td>{name}</td>
+        <td>{format(timeStart, "MM-dd")}</td>
+        <td>{format(timeStart, "HH:mm")}</td>
+        <td>{format(timeEnd, "HH:mm")}</td>
+        <td>
           <input type="checkbox" defaultChecked={join} />
-        </li>
-      </ul>
+        </td>
+      </tr>
     );
   });
 
-  return <div role="table">{rows}</div>;
+  return (
+    <table className="info">
+      <tbody>
+        <tr>
+          <th>Name</th>
+          <th>Date</th>
+          <th>Start</th>
+          <th>End</th>
+          <th>Join</th>
+        </tr>
+        {rows}
+      </tbody>
+    </table>
+  );
 }

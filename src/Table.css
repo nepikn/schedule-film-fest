@@ -2,10 +2,22 @@
 }
 
 .info {
-  grid-template-columns: repeat(5, 1fr);
-  border-block-start: 1px solid grey;
-}
+  /* grid-template-columns: repeat(5, 1fr); */
+  width: 100%;
+  border: 1px solid grey;
+  border-collapse: collapse;
 
-.info > li {
-  border-inline-start: 1px solid silver;
+  & tr {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr) 5em;
+  }
+
+  & td {
+    border-block-start: 1px solid grey;
+    border-inline-start: 1px solid silver;
+
+    &:first-child {
+      border-inline-start: none;
+    }
+  }
 }
