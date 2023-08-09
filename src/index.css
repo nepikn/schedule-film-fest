@@ -1,4 +1,8 @@
 /* my */
+input[type="checkbox" i] {
+  margin: 0;
+}
+
 .grid {
   display: grid;
   list-style: none;

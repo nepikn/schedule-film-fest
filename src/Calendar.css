@@ -16,15 +16,26 @@
     & .grid.month {
       grid-template-rows: repeat(6, max-content);
 
-      & .cell {
+      & .grid.cell {
+        grid-template-rows: repeat(2, max-content);
         text-align: end;
         line-height: 1;
-        padding: 1ex;
 
         &:nth-child(7n + 1) {
           border-inline-start: none;
         }
+
+        & > * {
+          padding: 1ex;
+        }
       }
+    }
+
+    & .grid.info {
+      grid-template-columns: 1fr auto;
+      gap: 1ex;
+      max-height: 50vh;
+      overflow-y: auto;
     }
   }
 }

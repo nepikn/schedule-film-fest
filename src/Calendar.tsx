@@ -6,10 +6,14 @@ import {
   // addDays,
   endOfMonth,
   endOfWeek,
+  isSameDay,
+  format,
 } from "date-fns";
+// import { AgGridReact } from "ag-grid-react";
 import "./Calendar.css";
+import { FilmInfo } from "./App";
 
-export default function Calendar() {
+export default function Calendar({ filmInfos }: { filmInfos: FilmInfo[] }) {
   const [monthStart, setMonthStart] = useState(new Date());
   // const [inputVal, setInputVal] = useState(
   //   time.getFullYear() + "-" + time.getDate()
@@ -26,6 +30,7 @@ export default function Calendar() {
         firstDayWeek={monthStart.getDay()}
         lastDate={endOfMonth(monthStart)}
         monthStart={monthStart}
+        filmInfos={filmInfos}
       />
     </div>
   );
@@ -35,44 +40,29 @@ function Month({
   // firstDayWeek,
   // lastDate,
   monthStart,
+  filmInfos,
 }: {
   firstDayWeek: number;
   lastDate: Date;
   monthStart: Date;
+  filmInfos: FilmInfo[];
 }) {
-  // let date = previousSunday(monthStart);
-  // let day = firstDayWeek;
-  // const weeks = [];
-  // while (date.getTime() <= lastDate.getTime()) {
-  //   weeks.push(
-  //     <li key={date.getTime()}>
-  //       <ul className="grid week">
-  //         {new Array(7).fill("").map((_, i) => (
-  //           <li key={i} className="cell">
-  //             {date < monthStart ? "" : (date = addDays(date, 1)).getDate()}
-  //           </li>
-  //         ))}
-  //       </ul>
-  //     </li>
-  //   );
-  // }
-
   const weeks = eachWeekOfInterval({
     start: monthStart.getDay() ? previousSunday(monthStart) : monthStart,
     end: endOfMonth(monthStart),
-  }).map((sun, i) => (
-    <li key={i}>
+  }).map((sun) => (
+    <li key={sun.getTime()}>
       {
         <ul className="grid week">
           {eachDayOfInterval({ start: sun, end: endOfWeek(sun) }).map(
-            (date, i) => (
-              <li key={i} className="cell">
-                <div>
-                  {date.getMonth() == monthStart.getMonth()
-                    ? date.getDate()
-                    : ""}
-                </div>
-              </li>
+            (date) => (
+              <Day
+                date={date}
+                curMonth={monthStart.getMonth()}
+                dayFilmInfos={filmInfos.filter((filmInfo) =>
+                  isSameDay(filmInfo.timeStart, date)
+                )}
+              />
             )
           )}
         </ul>
@@ -95,3 +85,51 @@ function Month({
     </div>
   );
 }
+
+function Day({
+  date,
+  curMonth,
+  dayFilmInfos: filmInfos,
+}: {
+  date: Date;
+  curMonth: number;
+  dayFilmInfos: FilmInfo[];
+}) {
+  return (
+    <li key={date.getTime()} className="grid cell">
+      <div>{date.getMonth() == curMonth ? date.getDate() : ""}</div>
+      <div className="grid info">
+        {filmInfos.map((filmInfo) => (
+          <>
+            <div>
+              <div>{filmInfo.name}</div>
+              <div>
+                {format(filmInfo.timeStart, "HH:mm") +
+                  "-" +
+                  format(filmInfo.timeEnd, "HH:mm")}
+              </div>
+            </div>
+            <input type="checkbox" />
+          </>
+        ))}
+      </div>
+    </li>
+  );
+}
+
+/*   let date = previousSunday(monthStart);
+  let day = firstDayWeek;
+  const weeks = [];
+  while (date.getTime() <= lastDate.getTime()) {
+    weeks.push(
+      <li key={date.getTime()}>
+        <ul className="grid week">
+          {new Array(7).fill("").map((_, i) => (
+            <li key={i} className="cell">
+              {date < monthStart ? "" : (date = addDays(date, 1)).getDate()}
+            </li>
+          ))}
+        </ul>
+      </li>
+    );
+  } */
