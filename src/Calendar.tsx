@@ -14,7 +14,7 @@ import "./Calendar.css";
 import { FilmInfo } from "./App";
 
 export default function Calendar({ filmInfos }: { filmInfos: FilmInfo[] }) {
-  const [monthStart, setMonthStart] = useState(new Date());
+  const [monthStart, setMonthStart] = useState(new Date("2023-4"));
   // const [inputVal, setInputVal] = useState(
   //   time.getFullYear() + "-" + time.getDate()
   // );
@@ -22,7 +22,9 @@ export default function Calendar({ filmInfos }: { filmInfos: FilmInfo[] }) {
     <div className="calendar">
       <input
         type="text"
-        defaultValue={monthStart.getFullYear() + "-" + monthStart.getDate()}
+        defaultValue={
+          monthStart.getFullYear() + "-" + (monthStart.getMonth() + 1)
+        }
         // onInput={(e) => setInputVal(e.target.value)}
         onChange={(e) => setMonthStart(new Date(e.target.value))}
       />

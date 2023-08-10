@@ -1,10 +1,9 @@
-import { FilmInfo } from "./App";
 import { format } from "date-fns";
 import "./Table.css";
 
-export default function Table({ filmInfos }: { filmInfos: FilmInfo[] }) {
-  const rows = filmInfos.map((filmInfo, i) => {
-    const { name, timeStart, timeEnd, join } = filmInfo;
+export default function Table({ rowData }: { rowData: string[][] }) {
+  const rows = rowData.map((row, i) => {
+    const [name, timeStart, timeEnd, join] = row;
 
     return (
       <tr key={i} className="row">
@@ -12,16 +11,16 @@ export default function Table({ filmInfos }: { filmInfos: FilmInfo[] }) {
           {name}
         </td>
         <td className="cell" contentEditable>
-          {format(timeStart, "MM-dd")}
+          {format(new Date(timeStart), "MM-dd")}
         </td>
         <td className="cell" contentEditable>
-          {format(timeStart, "HH:mm")}
+          {format(new Date(timeStart), "HH:mm")}
         </td>
         <td className="cell" contentEditable>
-          {format(timeEnd, "HH:mm")}
+          {format(new Date(timeEnd), "HH:mm")}
         </td>
         <td className="cell">
-          <input type="checkbox" defaultChecked={join} />
+          <input type="checkbox" defaultChecked={join == "true"} />
         </td>
       </tr>
     );
@@ -29,7 +28,7 @@ export default function Table({ filmInfos }: { filmInfos: FilmInfo[] }) {
 
   return (
     <table className="table info">
-      <tbody>
+      <thead>
         <tr className="row">
           <th>Name</th>
           <th>Date</th>
@@ -37,8 +36,8 @@ export default function Table({ filmInfos }: { filmInfos: FilmInfo[] }) {
           <th>End</th>
           <th>Join</th>
         </tr>
-        {rows}
-      </tbody>
+      </thead>
+      <tbody>{rows}</tbody>
     </table>
   );
 }
