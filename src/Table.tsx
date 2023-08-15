@@ -6,7 +6,7 @@ export default function Table({ rowData }: { rowData: string[][] }) {
     const [name, timeStart, timeEnd, join] = row;
 
     return (
-      <tr key={i} className="row">
+      <tr key={i} data-index={i} className="row">
         <td className="cell" contentEditable>
           {name}
         </td>

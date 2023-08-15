@@ -1,5 +1,21 @@
-/* my */
-input[type="checkbox" i] {
+/* custom */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background-color: black;
+}
+
+@media (prefers-color-scheme: light) {
+  ::-webkit-scrollbar {
+    background-color: silver;
+  }
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsla(0, 0%, 100%, 0.25);
+}
+
+input[type="checkbox"] {
   margin: 0;
 }
 
@@ -33,6 +49,7 @@ input[type="checkbox" i] {
   }
 }
 
+/* default */
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
