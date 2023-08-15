@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import "./App.css";
 import Calendar from "./Calendar";
 // import Calendar from "react-calendar";
@@ -9,8 +10,10 @@ export class FilmInfo {
   timeStart;
   timeEnd;
   join;
+  id;
 
   constructor(
+    id: string,
     name = "",
     timeStart: string | number = Date.now(),
     timeEnd: typeof timeStart = Date.now(),
@@ -20,6 +23,7 @@ export class FilmInfo {
     this.timeStart = new Date(timeStart);
     this.timeEnd = new Date(timeEnd);
     this.join = join == "true";
+    this.id = id;
   }
 }
 
@@ -45,14 +49,14 @@ function App() {
     ["爸佔你的心", "04/10/2023 21:40", "04/10/2023 21:40", "false"],
     ["超感啟示路", "04/12/2023 21:00", "04/12/2023 21:00", "false"],
     ["超感啟示路", "04/13/2023 11:00", "04/13/2023 11:00", "false"],
-  ];
+  ].map((row) => [uuidv4(), ...row]);
   const [filmInfos, setFilmInfos] = useState(
-    rowData.map((row) => new FilmInfo(...row))
+    rowData.map((row) => new FilmInfo(...(row as [string])))
   );
   const handleInput = (e: React.FormEvent<HTMLDivElement>) => {
     if (
       !(e.target instanceof HTMLElement) ||
-      e.target.closest("tr")?.dataset.index == undefined
+      e.target.closest("li[data-id]")?.dataset.index == undefined
     )
       return;
 

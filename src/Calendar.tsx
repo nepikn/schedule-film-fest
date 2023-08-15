@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import {
   eachWeekOfInterval,
   eachDayOfInterval,
@@ -75,13 +76,9 @@ function Month({
   return (
     <div className="table">
       <ul className="row grid week">
-        <li>Sun</li>
-        <li>Mon</li>
-        <li>Tue</li>
-        <li>Wed</li>
-        <li>Thu</li>
-        <li>Fri</li>
-        <li>Sat</li>
+        {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((title) => (
+          <li key={uuidv4()}>{title}</li>
+        ))}
       </ul>
       <ul className="grid month">{weeks}</ul>
     </div>
