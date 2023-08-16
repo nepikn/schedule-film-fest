@@ -1,11 +1,17 @@
+import { FilmInfo } from "./App";
 import { format } from "date-fns";
 import { v4 as uuidv4 } from "uuid";
 import "./Table.css";
 
-export default function Table({ rowData }: { rowData: string[][] }) {
+export default function Table({
+  rowData,
+  handleChange,
+}: {
+  rowData: FilmInfo[];
+}) {
   const titles = ["Name", "Date", "Start", "End", "Join"];
   const rows = rowData.map((row) => {
-    const [id, name, timeStart, timeEnd, join] = row;
+    const { id, name, timeStart, timeEnd, join } = row;
 
     return (
       <li key={id} data-id={id} className="row">
@@ -18,10 +24,10 @@ export default function Table({ rowData }: { rowData: string[][] }) {
             join,
           ].map((defVal, i) => (
             <li key={uuidv4()} title={titles[i]} className="cell">
-              {i != 4 ? (
-                <input type="text" defaultValue={defVal} />
+              {typeof defVal == "string" ? (
+                <input type="text" value={defVal} onChange={handleChange} />
               ) : (
-                <input type="checkbox" defaultChecked={join == "true"} />
+                <input type="checkbox" checked={join} onChange={handleChange} />
               )}
             </li>
           ))}

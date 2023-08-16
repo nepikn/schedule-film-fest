@@ -172,7 +172,7 @@ function App() {
     rowData.map((row) => new FilmInfo(...(row as [string])))
   );
 
-  const handleInput = (e: React.FormEvent<HTMLDivElement>) => {
+  const handleChange = (e: React.FormEvent<HTMLDivElement>) => {
     if (!(e.target instanceof HTMLElement) || !e.target.closest("li[data-id]"))
       return;
 
@@ -180,17 +180,26 @@ function App() {
     const index = filmInfos.findIndex(
       (info) => info.id == e.target.closest("li[data-id]").dataset.id
     );
-
-    nextFilmInfos[index] = Object.assign({}, nextFilmInfos[index], {
-      [e.target.title]: e.target.value,
-    });
+    nextFilmInfos[index] = Object.assign(
+      { ...nextFilmInfos[index] },
+      {
+        [e.target.closest("li")!.title.toLowerCase()]: e.target.value,
+      }
+    );
     setFilmInfos(nextFilmInfos);
+    console.log(
+      e.target.closest("li")!.title.toLowerCase(),
+      Object.assign(
+        { [e.target.closest("li")!.title.toLowerCase()]: e.target.value },
+        nextFilmInfos[index]
+      )
+    );
   };
 
   return (
     <div className="body">
-      <div onInput={handleInput}>
-        <Table rowData={rowData} />
+      <div>
+        <Table rowData={filmInfos} handleChange={handleChange} />
       </div>
       <div>
         <Calendar filmInfos={filmInfos} />
