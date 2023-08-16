@@ -31,11 +31,15 @@
       }
     }
 
-    & .grid.info {
-      grid-template-columns: 1fr auto;
+    & .grid.infos {
       gap: 1ex;
       max-height: 50vh;
       overflow-y: auto;
+
+      .grid {
+        grid-template-columns: 1fr auto;
+        gap: 1ex;
+      }
     }
   }
 }

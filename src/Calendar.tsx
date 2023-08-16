@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 import {
   eachWeekOfInterval,
   eachDayOfInterval,
@@ -60,6 +59,7 @@ function Month({
           {eachDayOfInterval({ start: sun, end: endOfWeek(sun) }).map(
             (date) => (
               <Day
+                key={date.getTime()}
                 date={date}
                 curMonth={monthStart.getMonth()}
                 dayFilmInfos={filmInfos.filter((filmInfo) =>
@@ -77,7 +77,7 @@ function Month({
     <div className="table">
       <ul className="row grid week">
         {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((title) => (
-          <li key={uuidv4()}>{title}</li>
+          <li key={title}>{title}</li>
         ))}
       </ul>
       <ul className="grid month">{weeks}</ul>
@@ -95,11 +95,11 @@ function Day({
   dayFilmInfos: FilmInfo[];
 }) {
   return (
-    <li key={date.getTime()} className="grid cell">
+    <li className="grid cell">
       <div>{date.getMonth() == curMonth ? date.getDate() : ""}</div>
-      <div className="grid info">
+      <div className="infos grid">
         {filmInfos.map((filmInfo) => (
-          <>
+          <div key={filmInfo.id} className="grid">
             <div>
               <div>{filmInfo.name}</div>
               <div>
@@ -109,7 +109,7 @@ function Day({
               </div>
             </div>
             <input type="checkbox" />
-          </>
+          </div>
         ))}
       </div>
     </li>
