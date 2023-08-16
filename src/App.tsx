@@ -5,6 +5,15 @@ import "./App.css";
 import Calendar from "./Calendar";
 import Table from "./Table";
 
+interface FilmInfoKey {
+  name: string;
+  timeStart: Date;
+  timeEnd: Date;
+  join: boolean;
+  date?: string;
+  start?: string;
+  end?: string;
+}
 export class FilmInfo {
   name;
   timeStart;
@@ -12,15 +21,22 @@ export class FilmInfo {
   join;
   id;
 
+  // constructor(name: string, timeStart: string, timeEnd: string, join: string);
+  // constructor({
+  //   name,
+  //   timeStart,
+  //   timeEnd,
+  //   join,
+  // }: FilmInfoKey);
   constructor(
-    name = "",
-    timeStart: string | number = Date.now(),
-    timeEnd: typeof timeStart = Date.now(),
+    name = "" /* : string | FilmInfoKey */,
+    timeStart = "",
+    timeEnd = "",
     join = "false"
   ) {
     this.name = name;
-    this.timeStart = new Date(timeStart);
-    this.timeEnd = new Date(timeEnd);
+    this.timeStart = timeStart ? new Date(timeStart) : new Date();
+    this.timeEnd = timeEnd ? new Date(timeEnd) : new Date();
     this.join = join == "true";
     this.id = v4();
   }
@@ -28,12 +44,36 @@ export class FilmInfo {
   get date() {
     return format(this.timeStart, "MM-dd");
   }
+  set date(val: string) {
+    const [month, day] = val.split("-");
+    this.timeStart.setMonth(+month - 1);
+    this.timeStart.setDate(+day);
+  }
+
   get start() {
     return format(this.timeStart, "HH:mm");
   }
+  set start(val: string) {
+    const [hour, minute] = val.split(":");
+    this.timeStart.setHours(+hour);
+    this.timeStart.setMinutes(+minute);
+  }
+
   get end() {
     return format(this.timeEnd, "HH:mm");
   }
+  set end(val: string) {
+    const [hour, minute] = val.split(":");
+    this.timeEnd.setHours(+hour);
+    this.timeEnd.setMinutes(+minute);
+  }
+
+  // update(name: keyof FilmInfo) {
+  //   switch (name) {
+  //     case "date":
+
+  //   }
+  // }
 }
 
 function App() {
@@ -63,39 +103,15 @@ function App() {
     rowData.map((row) => new FilmInfo(...(row as [string])))
   );
 
-  const handleChange = (e: React.FormEvent<HTMLDivElement>) => {
-    if (!(e.target instanceof HTMLElement) || !e.target.closest("li[data-id]"))
-      return;
-
-    const nextFilmInfos = filmInfos.slice();
-    const index = filmInfos.findIndex(
-      (info) => info.id == e.target.closest("li[data-id]").dataset.id
-    );
-    nextFilmInfos[index] = Object.assign(
-      { ...nextFilmInfos[index] },
-      {
-        [e.target.closest("li")!.title.toLowerCase()]: e.target.value,
-      }
-    );
-    setFilmInfos(nextFilmInfos);
-    console.log(
-      e.target.closest("li")!.title.toLowerCase(),
-      Object.assign(
-        { [e.target.closest("li")!.title.toLowerCase()]: e.target.value },
-        nextFilmInfos[index]
-      )
-    );
-  };
-
   return (
-    <div className="body">
+    <main>
       <div>
-        <Table rowData={filmInfos} handleChange={handleChange} />
+        <Table filmInfos={filmInfos} />
       </div>
       <div>
         <Calendar filmInfos={filmInfos} />
       </div>
-    </div>
+    </main>
   );
 }
 

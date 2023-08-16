@@ -35,10 +35,6 @@ input[type="checkbox"] {
     font-weight: bold;
   }
 
-  & .row {
-    display: grid;
-  }
-
   & .cell {
     border-block-start: 1px solid grey;
     border-inline-start: 1px solid silver;

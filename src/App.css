@@ -6,8 +6,7 @@
   text-align: center;
 }
 
-.body {
+main {
   display: grid;
-  grid-template-rows: repeat(2, auto);
   gap: 1lh;
 }
