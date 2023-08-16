@@ -103,10 +103,22 @@ function App() {
     rowData.map((row) => new FilmInfo(...(row as [string])))
   );
 
+  function handleTableChange(e: React.FormEvent<HTMLDivElement>) {
+    if (!(e.target instanceof HTMLElement) || !e.target.closest("li[data-id]"))
+      return;
+
+    const nextFilmInfos = filmInfos.slice();
+    const index = filmInfos.findIndex(
+      (info) => info.id == e.target.closest("li[data-id]").dataset.id
+    );
+    nextFilmInfos[index][e.target.name] = e.target.value;
+    setFilmInfos(nextFilmInfos);
+  }
+
   return (
     <main>
       <div>
-        <Table filmInfos={filmInfos} />
+        <Table filmInfos={filmInfos} handleChange={handleTableChange} />
       </div>
       <div>
         <Calendar filmInfos={filmInfos} />
