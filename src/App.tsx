@@ -5,15 +5,7 @@ import "./App.css";
 import Calendar from "./Calendar";
 import Table from "./Table";
 
-interface FilmInfoKey {
-  name: string;
-  timeStart: Date;
-  timeEnd: Date;
-  join: boolean;
-  date?: string;
-  start?: string;
-  end?: string;
-}
+type FilmInfoKey = keyof FilmInfo;
 export class FilmInfo {
   name;
   timeStart;
@@ -103,15 +95,16 @@ function App() {
     rowData.map((row) => new FilmInfo(...(row as [string])))
   );
 
-  function handleTableChange(e: React.FormEvent<HTMLDivElement>) {
-    if (!(e.target instanceof HTMLElement) || !e.target.closest("li[data-id]"))
-      return;
+  function handleTableChange(e: React.FormEvent<HTMLInputElement>) {
+    if (!(e.target instanceof HTMLElement)) return;
 
     const nextFilmInfos = filmInfos.slice();
     const index = filmInfos.findIndex(
-      (info) => info.id == e.target.closest("li[data-id]").dataset.id
+      (info) =>
+        info.id ==
+        (e.currentTarget.closest("li[data-id]")! as HTMLLIElement).dataset.id
     );
-    nextFilmInfos[index][e.target.name] = e.target.value;
+    nextFilmInfos[index][e.currentTarget.name] = e.currentTarget.value;
     setFilmInfos(nextFilmInfos);
   }
 

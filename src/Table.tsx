@@ -17,6 +17,7 @@ export default function Table({
         <ul className="grid">
           {titles.map((title) => (
             <Cell
+              key={title}
               title={title}
               info={filmInfo[title]}
               handleChange={handleChange}
@@ -45,7 +46,7 @@ export default function Table({
 
 function Cell({ title, info, handleChange }) {
   return (
-    <li key={title} className="cell">
+    <li className="cell">
       {title != "join" ? (
         <input type="text" value={info} name={title} onChange={handleChange} />
       ) : (
