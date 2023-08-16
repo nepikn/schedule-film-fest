@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import { useState } from "react";
 import "./App.css";
 import Calendar from "./Calendar";
@@ -22,6 +23,16 @@ export class FilmInfo {
     this.timeEnd = new Date(timeEnd);
     this.join = join == "true";
     this.id = id;
+  }
+
+  get date() {
+    return format(this.timeStart, "MM-dd");
+  }
+  get start() {
+    return format(this.timeStart, "HH:mm");
+  }
+  get end() {
+    return format(this.timeEnd, "HH:mm");
   }
 }
 
