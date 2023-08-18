@@ -3,9 +3,8 @@ import { useState } from "react";
 import { v4 } from "uuid";
 import "./App.css";
 import Calendar from "./Calendar";
-import Table from "./Table";
+import Table, { TableTitle } from "./Table";
 
-type FilmInfoKey = keyof FilmInfo;
 export class FilmInfo {
   name;
   timeStart;
@@ -13,23 +12,11 @@ export class FilmInfo {
   join;
   id;
 
-  // constructor(name: string, timeStart: string, timeEnd: string, join: string);
-  // constructor({
-  //   name,
-  //   timeStart,
-  //   timeEnd,
-  //   join,
-  // }: FilmInfoKey);
-  constructor(
-    name = "" /* : string | FilmInfoKey */,
-    timeStart = "",
-    timeEnd = "",
-    join = "false"
-  ) {
+  constructor(name = "", timeStart = "", timeEnd = "", join = "false") {
     this.name = name;
     this.timeStart = timeStart ? new Date(timeStart) : new Date();
     this.timeEnd = timeEnd ? new Date(timeEnd) : new Date();
-    this.join = join == "true";
+    this.join = join;
     this.id = v4();
   }
 
@@ -59,13 +46,6 @@ export class FilmInfo {
     this.timeEnd.setHours(+hour);
     this.timeEnd.setMinutes(+minute);
   }
-
-  // update(name: keyof FilmInfo) {
-  //   switch (name) {
-  //     case "date":
-
-  //   }
-  // }
 }
 
 function App() {
@@ -96,12 +76,13 @@ function App() {
   );
 
   function handleTableChange(e: React.FormEvent<HTMLInputElement>) {
-    if (!(e.target instanceof HTMLInputElement)) return;
+    const targ = e.target;
+    if (!(targ instanceof HTMLInputElement)) return;
 
     const nextFilmInfos = filmInfos.slice();
-    nextFilmInfos.find((info) => info.id == e.target.dataset.id)![
-      e.target.name
-    ] = e.target.value;
+    nextFilmInfos.find((info) => info.id == targ.dataset.id)![
+      targ.name as TableTitle
+    ] = targ.value;
     setFilmInfos(nextFilmInfos);
   }
 
