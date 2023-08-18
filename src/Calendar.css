@@ -16,22 +16,23 @@
     & .grid.month {
       grid-template-rows: repeat(6, max-content);
 
-      & .grid.cell {
-        grid-template-rows: repeat(2, max-content);
-        text-align: end;
-        line-height: 1;
+    }
+    
+    & .grid.cell {
+      grid-template-rows: repeat(2, max-content);
+      text-align: end;
+      line-height: 1;
 
-        &:nth-child(7n + 1) {
-          border-inline-start: none;
-        }
+      &:nth-child(7n + 1) {
+        border-inline-start: none;
+      }
 
-        & > * {
-          padding: 1ex;
-        }
+      & > * {
+        padding: 1ex;
       }
     }
 
-    & .grid.infos {
+    & .agenda.grid {
       gap: 1ex;
       max-height: 50vh;
       overflow-y: auto;

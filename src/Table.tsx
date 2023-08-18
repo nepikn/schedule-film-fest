@@ -19,7 +19,7 @@ export default function Table({
           {titles.map((title) => (
             <Cell
               key={title}
-              title={title}
+              name={title}
               info={filmInfo}
               handleChange={handleChange}
             />
@@ -46,28 +46,28 @@ export default function Table({
 }
 
 function Cell({
-  title,
+  name,
   info,
   handleChange,
 }: {
-  title: TableTitle;
+  name: TableTitle;
   info: FilmInfo;
   handleChange: (e: React.FormEvent<HTMLInputElement>) => void;
 }) {
-  const isJoin = title == "join";
+  const isJoin = name == "join";
   return (
     <li className="cell">
       <input
         type={
           isJoin
             ? "checkbox"
-            : title == "start" || title == "end"
+            : name == "start" || name == "end"
             ? "time"
             : "string"
         }
-        checked={isJoin && info[title] == "true"}
-        value={isJoin ? "" : info[title]}
-        name={title}
+        checked={isJoin && info[name] == "true"}
+        value={info[name]}
+        name={name}
         data-id={info.id}
         onChange={handleChange}
       />

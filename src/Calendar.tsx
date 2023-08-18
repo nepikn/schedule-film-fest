@@ -15,9 +15,6 @@ import { FilmInfo } from "./App";
 
 export default function Calendar({ filmInfos }: { filmInfos: FilmInfo[] }) {
   const [monthStart, setMonthStart] = useState(new Date("2023-4"));
-  // const [inputVal, setInputVal] = useState(
-  //   time.getFullYear() + "-" + time.getDate()
-  // );
   return (
     <div className="calendar">
       <input
@@ -25,7 +22,6 @@ export default function Calendar({ filmInfos }: { filmInfos: FilmInfo[] }) {
         defaultValue={
           monthStart.getFullYear() + "-" + (monthStart.getMonth() + 1)
         }
-        // onInput={(e) => setInputVal(e.target.value)}
         onChange={(e) => setMonthStart(new Date(e.target.value))}
       />
       <Month
@@ -39,8 +35,6 @@ export default function Calendar({ filmInfos }: { filmInfos: FilmInfo[] }) {
 }
 
 function Month({
-  // firstDayWeek,
-  // lastDate,
   monthStart,
   filmInfos,
 }: {
@@ -62,10 +56,13 @@ function Month({
                 key={date.getTime()}
                 date={date}
                 curMonth={monthStart.getMonth()}
-                dayFilmInfos={filmInfos.filter((filmInfo) =>
-                  isSameDay(filmInfo.timeStart, date)
-                )}
-              />
+              >
+                <Agenda
+                  dayFilmInfos={filmInfos.filter((filmInfo) =>
+                    isSameDay(filmInfo.timeStart, date)
+                  )}
+                />
+              </Day>
             )
           )}
         </ul>
@@ -88,31 +85,37 @@ function Month({
 function Day({
   date,
   curMonth,
-  dayFilmInfos: filmInfos,
+  children,
 }: {
   date: Date;
   curMonth: number;
-  dayFilmInfos: FilmInfo[];
+  children: JSX.Element;
 }) {
   return (
     <li className="grid cell">
       <div>{date.getMonth() == curMonth ? date.getDate() : ""}</div>
-      <div className="infos grid">
-        {filmInfos.map((filmInfo) => (
-          <div key={filmInfo.id} className="grid">
-            <div>
-              <div>{filmInfo.name}</div>
-              <div>
-                {format(filmInfo.timeStart, "HH:mm") +
-                  "-" +
-                  format(filmInfo.timeEnd, "HH:mm")}
-              </div>
-            </div>
-            <input type="checkbox" />
-          </div>
-        ))}
-      </div>
+      {children}
     </li>
+  );
+}
+
+function Agenda({ dayFilmInfos: filmInfos }: { dayFilmInfos: FilmInfo[] }) {
+  return (
+    <div className="agenda grid">
+      {filmInfos.map((filmInfo) => (
+        <div key={filmInfo.id} className="grid">
+          <div>
+            <div>{filmInfo.name}</div>
+            <div>
+              {format(filmInfo.timeStart, "HH:mm") +
+                "-" +
+                format(filmInfo.timeEnd, "HH:mm")}
+            </div>
+          </div>
+          <input type="checkbox" />
+        </div>
+      ))}
+    </div>
   );
 }
 
