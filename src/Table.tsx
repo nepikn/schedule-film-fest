@@ -58,7 +58,13 @@ function Cell({
   return (
     <li className="cell">
       <input
-        type={isJoin ? "checkbox" : "string"}
+        type={
+          isJoin
+            ? "checkbox"
+            : title == "start" || title == "end"
+            ? "time"
+            : "string"
+        }
         checked={isJoin && info[title] == "true"}
         value={isJoin ? "" : info[title]}
         name={title}

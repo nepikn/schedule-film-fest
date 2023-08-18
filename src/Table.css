@@ -23,4 +23,16 @@
   &:focus {
     outline: none;
   }
+
+  &[name="date"] {
+    text-align: center;
+    width: 100%;
+  }
+
+  &[type="time"] {
+    font-family: Arial, Helvetica, sans-serif;
+    flex-direction: row-reverse;
+    gap: 1ex;
+    margin-inline-start: -8px;
+  }
 }
