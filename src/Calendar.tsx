@@ -102,19 +102,21 @@ function Day({
 function Agenda({ dayFilmInfos: filmInfos }: { dayFilmInfos: FilmInfo[] }) {
   return (
     <div className="agenda grid">
-      {filmInfos.map((filmInfo) => (
-        <div key={filmInfo.id} className="grid">
-          <div>
-            <div>{filmInfo.name}</div>
+      {filmInfos
+        .sort((a, b) => +a.timeStart - +b.timeStart)
+        .map((filmInfo) => (
+          <div key={filmInfo.id} className="grid">
             <div>
-              {format(filmInfo.timeStart, "HH:mm") +
-                "-" +
-                format(filmInfo.timeEnd, "HH:mm")}
+              <div>{filmInfo.name}</div>
+              <div>
+                {format(filmInfo.timeStart, "HH:mm") +
+                  "-" +
+                  format(filmInfo.timeEnd, "HH:mm")}
+              </div>
             </div>
+            <input type="checkbox" checked={filmInfo.join == "true"} />
           </div>
-          <input type="checkbox" />
-        </div>
-      ))}
+        ))}
     </div>
   );
 }
