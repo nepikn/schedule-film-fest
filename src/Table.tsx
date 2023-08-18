@@ -19,7 +19,7 @@ export default function Table({
             <Cell
               key={title}
               title={title}
-              info={filmInfo[title]}
+              info={filmInfo}
               handleChange={handleChange}
             />
           ))}
@@ -45,18 +45,17 @@ export default function Table({
 }
 
 function Cell({ title, info, handleChange }) {
+  const isJoin = title == "join";
   return (
     <li className="cell">
-      {title != "join" ? (
-        <input type="text" value={info} name={title} onChange={handleChange} />
-      ) : (
-        <input
-          type="checkbox"
-          checked={info}
-          name={title}
-          onChange={handleChange}
-        />
-      )}
+      <input
+        type={isJoin ? "checkbox" : "string"}
+        checked={isJoin && info[title]}
+        value={!isJoin && info[title]}
+        name={title}
+        data-id={info.id}
+        onChange={handleChange}
+      />
     </li>
   );
 }

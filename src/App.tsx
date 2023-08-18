@@ -96,15 +96,12 @@ function App() {
   );
 
   function handleTableChange(e: React.FormEvent<HTMLInputElement>) {
-    if (!(e.target instanceof HTMLElement)) return;
+    if (!(e.target instanceof HTMLInputElement)) return;
 
     const nextFilmInfos = filmInfos.slice();
-    const index = filmInfos.findIndex(
-      (info) =>
-        info.id ==
-        (e.currentTarget.closest("li[data-id]")! as HTMLLIElement).dataset.id
-    );
-    nextFilmInfos[index][e.currentTarget.name] = e.currentTarget.value;
+    nextFilmInfos.find((info) => info.id == e.target.dataset.id)![
+      e.target.name
+    ] = e.target.value;
     setFilmInfos(nextFilmInfos);
   }
 
