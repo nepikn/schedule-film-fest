@@ -15,9 +15,8 @@
 
     & .grid.month {
       grid-template-rows: repeat(6, max-content);
-
     }
-    
+
     & .grid.cell {
       grid-template-rows: repeat(2, max-content);
       text-align: end;

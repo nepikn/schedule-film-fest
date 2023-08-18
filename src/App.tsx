@@ -20,10 +20,14 @@ export class FilmInfo {
     this.id = v4();
   }
 
+  get checked() {
+    return this.join == "true";
+  }
+
   get date() {
     return format(this.timeStart, "M-d");
   }
-  set date(val: string) {
+  set date(val) {
     const [month, day] = val.split("-");
     this.timeStart.setMonth(+month - 1);
     this.timeStart.setDate(+day);
@@ -65,21 +69,21 @@ function App() {
     rowData.map((row) => new FilmInfo(...(row as [string])))
   );
 
-  function handleTableChange(e: React.FormEvent<HTMLInputElement>) {
+  function handleInputChange(e: React.FormEvent<HTMLInputElement>) {
     const targ = e.target;
     if (!(targ instanceof HTMLInputElement)) return;
 
     const nextFilmInfos = filmInfos.slice();
     nextFilmInfos.find((info) => info.id == targ.dataset.id)![
       targ.name as TableTitle
-    ] = targ.value;
+    ] = targ.type == "checkbox" ? "" + targ.checked : targ.value;
     setFilmInfos(nextFilmInfos);
   }
 
   return (
-    <main>
+    <main onChange={handleInputChange}>
       <div>
-        <Table filmInfos={filmInfos} handleChange={handleTableChange} />
+        <Table filmInfos={filmInfos} />
       </div>
       <div>
         <Calendar filmInfos={filmInfos} />

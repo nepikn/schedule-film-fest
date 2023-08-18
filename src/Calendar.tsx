@@ -12,6 +12,7 @@ import {
 // import { AgGridReact } from "ag-grid-react";
 import "./Calendar.css";
 import { FilmInfo } from "./App";
+import { Input } from "./Table";
 
 export default function Calendar({ filmInfos }: { filmInfos: FilmInfo[] }) {
   const [monthStart, setMonthStart] = useState(new Date("2023-4"));
@@ -24,12 +25,7 @@ export default function Calendar({ filmInfos }: { filmInfos: FilmInfo[] }) {
         }
         onChange={(e) => setMonthStart(new Date(e.target.value))}
       />
-      <Month
-        firstDayWeek={monthStart.getDay()}
-        lastDate={endOfMonth(monthStart)}
-        monthStart={monthStart}
-        filmInfos={filmInfos}
-      />
+      <Month monthStart={monthStart} filmInfos={filmInfos} />
     </div>
   );
 }
@@ -38,8 +34,6 @@ function Month({
   monthStart,
   filmInfos,
 }: {
-  firstDayWeek: number;
-  lastDate: Date;
   monthStart: Date;
   filmInfos: FilmInfo[];
 }) {
@@ -89,7 +83,7 @@ function Day({
 }: {
   date: Date;
   curMonth: number;
-  children: JSX.Element;
+  children: React.ReactElement;
 }) {
   return (
     <li className="grid cell">
@@ -114,7 +108,7 @@ function Agenda({ dayFilmInfos: filmInfos }: { dayFilmInfos: FilmInfo[] }) {
                   format(filmInfo.timeEnd, "HH:mm")}
               </div>
             </div>
-            <input type="checkbox" checked={filmInfo.join == "true"} />
+            <Input name="join" info={filmInfo}></Input>
           </div>
         ))}
     </div>
