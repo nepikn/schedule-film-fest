@@ -1,6 +1,6 @@
 .table.info {
   & .grid {
-    grid-template-columns: repeat(4, 20ex) 5em;
+    grid-template-columns: repeat(4, calc((100% - 5em) / 4)) 5em;
   }
 
   & * {

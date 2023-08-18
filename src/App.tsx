@@ -21,7 +21,7 @@ export class FilmInfo {
   }
 
   get date() {
-    return format(this.timeStart, "MM-dd");
+    return format(this.timeStart, "M-d");
   }
   set date(val: string) {
     const [month, day] = val.split("-");
