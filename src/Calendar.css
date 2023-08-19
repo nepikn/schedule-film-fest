@@ -26,12 +26,12 @@
         border-inline-start: none;
       }
 
-      & > * {
+      > * {
         padding: 1ex;
       }
     }
 
-    & .agenda.grid {
+    .agenda {
       gap: 1ex;
       align-items: start;
       max-height: 50vh;
@@ -42,7 +42,7 @@
         gap: 1ex;
       }
 
-      &:last-child {
+      .dim {
         color: gray;
       }
     }

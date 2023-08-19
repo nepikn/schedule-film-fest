@@ -50,22 +50,11 @@ function Month({
                 date={date}
                 curMonth={monthStart.getMonth()}
               >
-                <>
-                  <Agenda
-                    dayFilmInfos={filmInfos.filter(
-                      (filmInfo) =>
-                        isSameDay(filmInfo.timeStart, date) &&
-                        !FilmInfo.isForsaken(filmInfo)
-                    )}
-                  />
-                  <Agenda
-                    dayFilmInfos={filmInfos.filter(
-                      (filmInfo) =>
-                        isSameDay(filmInfo.timeStart, date) &&
-                        FilmInfo.isForsaken(filmInfo)
-                    )}
-                  />
-                </>
+                <Agenda
+                  dayFilmInfos={filmInfos.filter((filmInfo) =>
+                    isSameDay(filmInfo.timeStart, date)
+                  )}
+                />
               </Day>
             )
           )}
@@ -104,12 +93,39 @@ function Day({
 }
 
 function Agenda({ dayFilmInfos: filmInfos }: { dayFilmInfos: FilmInfo[] }) {
+  FilmInfo.setCheckedId(filmInfos);
+  const [nonSkips, skips] = filmInfos.reduce(
+    (groups, info) => {
+      // console.log(FilmInfo.isSkipped(info));
+      
+      groups[FilmInfo.isSkipped(info) ? 1 : 0].push(info);
+      return groups;
+    },
+    [[], []] as FilmInfo[][]
+  );
+  if (nonSkips.length || skips.length) {
+    console.log(FilmInfo.checkedId);
+    
+    // console.log([nonSkips, skips]);
+  }
+
   return (
-    <div className="agenda grid">
-      {filmInfos
+    <div className="agenda">
+      {nonSkips
         .sort((a, b) => +a.timeStart - +b.timeStart)
         .map((filmInfo) => (
           <div key={filmInfo.id} className="grid">
+            <div>
+              <div>{filmInfo.name}</div>
+              <div>{filmInfo.interval}</div>
+            </div>
+            <Input name="join" info={filmInfo}></Input>
+          </div>
+        ))}
+      {skips
+        .sort((a, b) => +a.timeStart - +b.timeStart)
+        .map((filmInfo) => (
+          <div key={filmInfo.id} className="grid dim">
             <div>
               <div>{filmInfo.name}</div>
               <div>{filmInfo.interval}</div>

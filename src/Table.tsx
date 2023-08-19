@@ -44,9 +44,9 @@ export function Input({ name, info }: { name: TableTitle; info: FilmInfo }) {
           ? "time"
           : "string"
       }
-      checked={name == "join" && info.checked}
       value={info[name]}
       name={name}
+      checked={info.checked}
       data-id={info.id}
       onChange={() => {}}
     />
