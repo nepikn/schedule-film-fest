@@ -1,4 +1,4 @@
-import { FilmInfo } from "./App";
+import FilmInfo from "./FilmInfo";
 import "./Table.css";
 
 export type TableTitle = "name" | "date" | "start" | "end" | "join";
@@ -38,10 +38,10 @@ export function Input({ name, info }: { name: TableTitle; info: FilmInfo }) {
   return (
     <input
       type={
-        name == "join"
-          ? "checkbox"
-          : name == "start" || name == "end"
+        name == "start" || name == "end"
           ? "time"
+          : name == "join"
+          ? "checkbox"
           : "string"
       }
       value={info[name]}

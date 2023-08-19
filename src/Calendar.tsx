@@ -10,13 +10,20 @@ import {
 } from "date-fns";
 // import { AgGridReact } from "ag-grid-react";
 import "./Calendar.css";
-import { FilmInfo } from "./App";
+import FilmInfo from "./FilmInfo";
 import { Input } from "./Table";
 
 export default function Calendar({ filmInfos }: { filmInfos: FilmInfo[] }) {
   const [monthStart, setMonthStart] = useState(new Date("2023-4"));
-
-  FilmInfo.setCheckedId(filmInfos);
+  const sortInfos = filmInfos
+    .slice()
+    .sort((a, b) =>
+      a.isSkipped == b.isSkipped
+        ? +a.timeStart - +b.timeStart
+        : a.isSkipped
+        ? 1
+        : -1
+    );
 
   return (
     <div className="calendar">
@@ -27,7 +34,7 @@ export default function Calendar({ filmInfos }: { filmInfos: FilmInfo[] }) {
         }
         onChange={(e) => setMonthStart(new Date(e.target.value))}
       />
-      <Month monthStart={monthStart} filmInfos={filmInfos} />
+      <Month monthStart={monthStart} filmInfos={sortInfos} />
     </div>
   );
 }
@@ -96,45 +103,17 @@ function Day({
 }
 
 function Agenda({ dayFilmInfos: filmInfos }: { dayFilmInfos: FilmInfo[] }) {
-  const [nonSkips, skips] = filmInfos.reduce(
-    (groups, info) => {
-      // console.log(FilmInfo.isSkipped(info));
-
-      groups[FilmInfo.isSkipped(info) ? 1 : 0].push(info);
-      return groups;
-    },
-    [[], []] as FilmInfo[][]
-  );
-  if (nonSkips.length || skips.length) {
-    console.log(FilmInfo.checkedId);
-
-    // console.log([nonSkips, skips]);
-  }
-
   return (
     <div className="agenda">
-      {nonSkips
-        .sort((a, b) => +a.timeStart - +b.timeStart)
-        .map((filmInfo) => (
-          <div key={filmInfo.id} className="grid">
-            <div>
-              <div>{filmInfo.name}</div>
-              <div>{filmInfo.interval}</div>
-            </div>
-            <Input name="join" info={filmInfo}></Input>
+      {filmInfos.map((info) => (
+        <div key={info.id} className={`grid ${info.isSkipped && "skipped"}`}>
+          <div>
+            <div>{info.name}</div>
+            <div>{info.interval}</div>
           </div>
-        ))}
-      {skips
-        .sort((a, b) => +a.timeStart - +b.timeStart)
-        .map((filmInfo) => (
-          <div key={filmInfo.id} className="grid dim">
-            <div>
-              <div>{filmInfo.name}</div>
-              <div>{filmInfo.interval}</div>
-            </div>
-            <Input name="join" info={filmInfo}></Input>
-          </div>
-        ))}
+          <Input name="join" info={info}></Input>
+        </div>
+      ))}
     </div>
   );
 }
