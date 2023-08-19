@@ -18,6 +18,9 @@ export class FilmInfo {
     this.timeEnd = timeEnd ? new Date(timeEnd) : new Date();
     this.join = join;
     this.id = v4();
+
+    if (!this.checked) return;
+    FilmInfo.checkedId[this.name] = this.id;
   }
 
   get checked() {
@@ -36,7 +39,7 @@ export class FilmInfo {
   get start() {
     return format(this.timeStart, "HH:mm");
   }
-  set start(val: string) {
+  set start(val) {
     const [hour, minute] = val.split(":");
     this.timeStart.setHours(+hour);
     this.timeStart.setMinutes(+minute);
@@ -45,10 +48,21 @@ export class FilmInfo {
   get end() {
     return format(this.timeEnd, "HH:mm");
   }
-  set end(val: string) {
+  set end(val) {
     const [hour, minute] = val.split(":");
     this.timeEnd.setHours(+hour);
     this.timeEnd.setMinutes(+minute);
+  }
+
+  get interval() {
+    return (
+      format(this.timeStart, "HH:mm") + "-" + format(this.timeEnd, "HH:mm")
+    );
+  }
+
+  static checkedId: { [index: string]: string } = {};
+  static isForsaken(info: FilmInfo) {
+    return this.checkedId[info.name] && info.id != this.checkedId[info.name];
   }
 }
 
@@ -66,7 +80,7 @@ function App() {
     ["霓裳魅影", "04/05/2023 19:10", "04/05/2023 19:10", "false"],
   ];
   const [filmInfos, setFilmInfos] = useState(
-    rowData.map((row) => new FilmInfo(...(row as [string])))
+    rowData.map((row) => new FilmInfo(...row))
   );
 
   function handleInputChange(e: React.FormEvent<HTMLInputElement>) {
@@ -74,19 +88,26 @@ function App() {
     if (!(targ instanceof HTMLInputElement)) return;
 
     const nextFilmInfos = filmInfos.slice();
-    nextFilmInfos.find((info) => info.id == targ.dataset.id)![
-      targ.name as TableTitle
-    ] = targ.type == "checkbox" ? "" + targ.checked : targ.value;
+    const info = nextFilmInfos.find((info) => info.id == targ.dataset.id)!;
+    if (targ.type == "checkbox" && targ.checked) {
+      FilmInfo.checkedId[info.name] = info.id;
+    }
+
+    info[targ.name as TableTitle] =
+      targ.type == "checkbox" ? "" + targ.checked : targ.value;
+
     setFilmInfos(nextFilmInfos);
   }
+
+  console.log(FilmInfo.checkedId);
 
   return (
     <main onChange={handleInputChange}>
       <div>
-        <Table filmInfos={filmInfos} />
+        <Calendar filmInfos={filmInfos} />
       </div>
       <div>
-        <Calendar filmInfos={filmInfos} />
+        <Table filmInfos={filmInfos} />
       </div>
     </main>
   );

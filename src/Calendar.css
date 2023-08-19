@@ -33,12 +33,17 @@
 
     & .agenda.grid {
       gap: 1ex;
+      align-items: start;
       max-height: 50vh;
       overflow-y: auto;
 
       .grid {
         grid-template-columns: 1fr auto;
         gap: 1ex;
+      }
+
+      &:last-child {
+        color: gray;
       }
     }
   }

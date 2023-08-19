@@ -7,7 +7,6 @@ import {
   endOfMonth,
   endOfWeek,
   isSameDay,
-  format,
 } from "date-fns";
 // import { AgGridReact } from "ag-grid-react";
 import "./Calendar.css";
@@ -51,11 +50,22 @@ function Month({
                 date={date}
                 curMonth={monthStart.getMonth()}
               >
-                <Agenda
-                  dayFilmInfos={filmInfos.filter((filmInfo) =>
-                    isSameDay(filmInfo.timeStart, date)
-                  )}
-                />
+                <>
+                  <Agenda
+                    dayFilmInfos={filmInfos.filter(
+                      (filmInfo) =>
+                        isSameDay(filmInfo.timeStart, date) &&
+                        !FilmInfo.isForsaken(filmInfo)
+                    )}
+                  />
+                  <Agenda
+                    dayFilmInfos={filmInfos.filter(
+                      (filmInfo) =>
+                        isSameDay(filmInfo.timeStart, date) &&
+                        FilmInfo.isForsaken(filmInfo)
+                    )}
+                  />
+                </>
               </Day>
             )
           )}
@@ -102,11 +112,7 @@ function Agenda({ dayFilmInfos: filmInfos }: { dayFilmInfos: FilmInfo[] }) {
           <div key={filmInfo.id} className="grid">
             <div>
               <div>{filmInfo.name}</div>
-              <div>
-                {format(filmInfo.timeStart, "HH:mm") +
-                  "-" +
-                  format(filmInfo.timeEnd, "HH:mm")}
-              </div>
+              <div>{filmInfo.interval}</div>
             </div>
             <Input name="join" info={filmInfo}></Input>
           </div>

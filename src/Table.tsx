@@ -1,6 +1,4 @@
 import { FilmInfo } from "./App";
-// import { format } from "date-fns";
-// import { v4 as uuidv4 } from "uuid";
 import "./Table.css";
 
 export type TableTitle = "name" | "date" | "start" | "end" | "join";
@@ -11,8 +9,8 @@ export default function Table({ filmInfos }: { filmInfos: FilmInfo[] }) {
       <li key={filmInfo.id} data-id={filmInfo.id} className="row">
         <ul className="grid">
           {titles.map((title) => (
-            <li className="cell">
-              <Input key={title} name={title} info={filmInfo} />
+            <li key={title} className="cell">
+              <Input name={title} info={filmInfo} />
             </li>
           ))}
         </ul>
@@ -50,6 +48,7 @@ export function Input({ name, info }: { name: TableTitle; info: FilmInfo }) {
       value={info[name]}
       name={name}
       data-id={info.id}
+      onChange={() => {}}
     />
   );
 }
