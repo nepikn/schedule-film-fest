@@ -22,27 +22,22 @@ export class FilmInfo {
     this.name = name;
     this.timeStart = timeStart ? new Date(timeStart) : new Date();
     this.timeEnd = timeEnd ? new Date(timeEnd) : new Date();
+    this.join = join;
     this.id = id;
-    this.join = join; // setter needs id
   }
 
-  // get checked() {
-  //   return this.join == "true";
-  // }
-
-  static checkedId: { [index: string]: string } = {};
+  static checkedId: { [index: string]: string | undefined } = {};
   static setCheckedId(filmInfos: FilmInfo[]) {
     filmInfos.forEach((info) => {
-      if (!info.checked && FilmInfo.checkedId[info.name] != info.id) return;
+      if (!info.checked && this.isSkipped(info)) return;
       // console.log(info.name);
 
       FilmInfo.checkedId[info.name] = info.checked ? info.id : "";
     });
   }
   static isSkipped(info: FilmInfo): boolean {
-    return (
-      this.checkedId[info.name] != "" && info.id != this.checkedId[info.name]
-    );
+    const sameNameCheckedId = this.checkedId[info.name];
+    return !!sameNameCheckedId && info.id != sameNameCheckedId;
   }
 
   set join(val: string) {

@@ -15,6 +15,9 @@ import { Input } from "./Table";
 
 export default function Calendar({ filmInfos }: { filmInfos: FilmInfo[] }) {
   const [monthStart, setMonthStart] = useState(new Date("2023-4"));
+
+  FilmInfo.setCheckedId(filmInfos);
+
   return (
     <div className="calendar">
       <input
@@ -93,11 +96,10 @@ function Day({
 }
 
 function Agenda({ dayFilmInfos: filmInfos }: { dayFilmInfos: FilmInfo[] }) {
-  FilmInfo.setCheckedId(filmInfos);
   const [nonSkips, skips] = filmInfos.reduce(
     (groups, info) => {
       // console.log(FilmInfo.isSkipped(info));
-      
+
       groups[FilmInfo.isSkipped(info) ? 1 : 0].push(info);
       return groups;
     },
@@ -105,7 +107,7 @@ function Agenda({ dayFilmInfos: filmInfos }: { dayFilmInfos: FilmInfo[] }) {
   );
   if (nonSkips.length || skips.length) {
     console.log(FilmInfo.checkedId);
-    
+
     // console.log([nonSkips, skips]);
   }
 
