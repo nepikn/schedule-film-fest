@@ -28,6 +28,10 @@
 
       > * {
         padding: 1ex;
+
+        &.agenda {
+          padding-bottom: 2ex;
+        }
       }
     }
   }

@@ -7,8 +7,8 @@ import {
   endOfMonth,
   endOfWeek,
   isSameDay,
+  format,
 } from "date-fns";
-// import { AgGridReact } from "ag-grid-react";
 import "./Calendar.css";
 import FilmInfo from "./FilmInfo";
 import { Input } from "./Table";
@@ -29,9 +29,9 @@ export default function Calendar({ filmInfos }: { filmInfos: FilmInfo[] }) {
     <div className="calendar">
       <label>
         <input
-          type="text"
+          type="month"
           defaultValue={
-            monthStart.getFullYear() + "-" + (monthStart.getMonth() + 1)
+            format(monthStart, "yyyy-MM")
           }
           onChange={(e) => setMonthStart(new Date(e.target.value))}
         />

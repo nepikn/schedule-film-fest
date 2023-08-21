@@ -46,6 +46,8 @@ export function Input({ name, info }: Input) {
       type={
         name == "start" || name == "end"
           ? "time"
+          : name == "date"
+          ? "date"
           : name == "join"
           ? "checkbox"
           : "string"
