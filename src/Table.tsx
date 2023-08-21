@@ -52,7 +52,8 @@ export function Input({ name, info }: Input) {
           ? "checkbox"
           : "string"
       }
-      value={info[name]}
+      value={name == "name" ? info[name] : undefined}
+      defaultValue={name != "name" ? info[name] : undefined}
       name={name}
       checked={info.checked}
       data-id={info.id}

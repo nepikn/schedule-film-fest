@@ -49,9 +49,9 @@ export default class FilmInfo {
     return format(this.timeStart, "yyyy-MM-dd");
   }
   set date(val) {
-    const [month, day] = val.split("-");
-    this.timeStart.setMonth(+month - 1);
-    this.timeStart.setDate(+day);
+    if (!val) return;
+    const [year, month, day] = val.split("-");
+    this.timeStart.setFullYear(+year, +month - 1, +day);
   }
 
   get start() {
