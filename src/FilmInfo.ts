@@ -24,6 +24,7 @@ export default class FilmInfo {
 
     FilmInfo.handleCheck(this, join == "true");
   }
+
   static checkedId: CheckedId = {};
   static handleCheck(info: FilmInfo, isChecked: boolean) {
     if (isChecked) {

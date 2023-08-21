@@ -6,11 +6,13 @@ export default function Table({ filmInfos }: { filmInfos: FilmInfo[] }) {
   const titles: TableTitle[] = ["name", "date", "start", "end", "join"];
   const rows = filmInfos.map((filmInfo) => {
     return (
-      <li key={filmInfo.id} data-id={filmInfo.id} className="row">
-        <ul className="grid">
+      <li key={filmInfo.id} data-id={filmInfo.id}>
+        <ul className="row grid">
           {titles.map((title) => (
             <li key={title} className="cell">
-              <Input name={title} info={filmInfo} />
+              <label>
+                <Input name={title} info={filmInfo} />
+              </label>
             </li>
           ))}
         </ul>
@@ -34,7 +36,11 @@ export default function Table({ filmInfos }: { filmInfos: FilmInfo[] }) {
   );
 }
 
-export function Input({ name, info }: { name: TableTitle; info: FilmInfo }) {
+interface Input {
+  name: TableTitle;
+  info: FilmInfo;
+}
+export function Input({ name, info }: Input) {
   return (
     <input
       type={

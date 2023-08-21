@@ -15,10 +15,6 @@
   background: hsla(0, 0%, 100%, 0.25);
 }
 
-input[type="checkbox"] {
-  margin: 0;
-}
-
 .grid {
   display: grid;
   list-style: none;
@@ -43,6 +39,16 @@ input[type="checkbox"] {
       border-inline-start: none;
     }
   }
+}
+
+input {
+  text-align: center;
+  width: 100%;
+  margin: 0;
+}
+
+label {
+  vertical-align: middle;
 }
 
 /* default */

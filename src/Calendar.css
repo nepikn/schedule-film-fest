@@ -8,16 +8,16 @@
     text-align: center;
   }
 
-  & .table {
-    & .grid.week {
+  .table {
+    .grid.week {
       grid-template-columns: repeat(7, 1fr);
     }
 
-    & .grid.month {
+    .grid.month {
       grid-template-rows: repeat(6, max-content);
     }
 
-    & .grid.cell {
+    .grid.cell {
       grid-template-rows: repeat(2, max-content);
       text-align: end;
       line-height: 1;
@@ -30,21 +30,31 @@
         padding: 1ex;
       }
     }
+  }
 
-    .agenda {
-      gap: 1ex;
-      align-items: start;
-      max-height: 50vh;
-      overflow-y: auto;
+  .agenda {
+    gap: 1ex;
+    align-items: start;
+    max-height: 50vh;
+    overflow-y: auto;
 
-      .grid {
-        grid-template-columns: 1fr auto;
-        gap: 1ex;
+    .skipped {
+      color: gray;
+    }
+
+    .grid {
+      grid-template-columns: 1fr auto;
+      grid-template-areas: "name input" "interval input";
+      gap: 0 1ex;
+      margin-top: 1ex;
+
+      &:first-child {
+        margin-top: 0;
       }
+    }
 
-      .skipped {
-        color: gray;
-      }
+    & input {
+      grid-area: input;
     }
   }
 }

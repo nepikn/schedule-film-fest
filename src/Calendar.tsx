@@ -27,13 +27,15 @@ export default function Calendar({ filmInfos }: { filmInfos: FilmInfo[] }) {
 
   return (
     <div className="calendar">
-      <input
-        type="text"
-        defaultValue={
-          monthStart.getFullYear() + "-" + (monthStart.getMonth() + 1)
-        }
-        onChange={(e) => setMonthStart(new Date(e.target.value))}
-      />
+      <label>
+        <input
+          type="text"
+          defaultValue={
+            monthStart.getFullYear() + "-" + (monthStart.getMonth() + 1)
+          }
+          onChange={(e) => setMonthStart(new Date(e.target.value))}
+        />
+      </label>
       <Month monthStart={monthStart} filmInfos={sortInfos} />
     </div>
   );
@@ -106,13 +108,14 @@ function Agenda({ dayFilmInfos: filmInfos }: { dayFilmInfos: FilmInfo[] }) {
   return (
     <div className="agenda">
       {filmInfos.map((info) => (
-        <div key={info.id} className={`grid ${info.isSkipped && "skipped"}`}>
-          <div>
-            <div>{info.name}</div>
-            <div>{info.interval}</div>
-          </div>
-          <Input name="join" info={info}></Input>
-        </div>
+        <label
+          key={info.id}
+          className={`grid ${info.isSkipped ? "skipped" : ""}`}
+        >
+          <div>{info.name}</div>
+          <div>{info.interval}</div>
+          <Input name="join" info={info} />
+        </label>
       ))}
     </div>
   );
