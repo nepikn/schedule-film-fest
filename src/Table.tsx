@@ -21,7 +21,7 @@ export default function Table({ filmInfos }: { filmInfos: FilmInfo[] }) {
   });
 
   return (
-    <form action="">
+    <form>
       <ul className="table info grid">
         <li className="row">
           <ul className="grid row">

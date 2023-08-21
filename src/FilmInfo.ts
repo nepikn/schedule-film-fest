@@ -1,6 +1,9 @@
 import { format } from "date-fns";
 import { v4 } from "uuid";
 
+interface FilmName {
+  [index: FilmInfo["id"]]: FilmInfo["name"] | undefined;
+}
 interface CheckedId {
   [index: FilmInfo["name"]]: FilmInfo["id"] | null;
 }
@@ -22,11 +25,21 @@ export default class FilmInfo {
     this.timeEnd = timeEnd ? new Date(timeEnd) : new Date();
     this.id = id;
 
+    FilmInfo.filmName[this.id] = this.name;
     FilmInfo.handleCheck(this, join == "true");
   }
 
+  static filmName: FilmName = {};
   static checkedId: CheckedId = {};
   static handleCheck(info: FilmInfo, isChecked: boolean) {
+    const prevName = this.filmName[info.id];
+    if (prevName != undefined && prevName != info.name) {
+      if (isChecked) {
+        this.checkedId[prevName] = null;
+      }
+      this.filmName[info.id] = info.name;
+    }
+
     if (isChecked) {
       this.checkedId[info.name] = info.id;
     } else if (info.id == this.checkedId[info.name]) {

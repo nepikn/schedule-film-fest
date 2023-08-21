@@ -83,13 +83,13 @@ function App() {
   function handleInputChange(e: React.FormEvent<HTMLInputElement>) {
     const targ = e.target;
     if (!(targ instanceof HTMLInputElement)) return;
-    console.log([targ.value]);
+    // console.log([targ.value]);
 
-    const targName = targ.name as TableTitle;
     const nextFilmInfos = filmInfos.slice();
     const info = nextFilmInfos.find((info) => info.id == targ.dataset.id);
     if (!info) return;
 
+    const targName = targ.name as TableTitle;
     if (targName != "join") {
       info[targName] = targ.value;
     }
@@ -102,7 +102,6 @@ function App() {
 
   return (
     <main onChange={handleInputChange}>
-      <input type="date" />
       <div>
         <Calendar filmInfos={filmInfos} />
       </div>
