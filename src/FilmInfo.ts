@@ -51,6 +51,9 @@ export default class FilmInfo {
     const sameNameCheckedId = FilmInfo.checkedId[this.name];
     return !!sameNameCheckedId && this.id != sameNameCheckedId;
   }
+  get isSkippedClass() {
+    return this.isSkipped ? " skipped" : "";
+  }
   get join() {
     return "" + this.checked;
   }

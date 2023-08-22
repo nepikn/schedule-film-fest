@@ -27,11 +27,11 @@
   border: 1px solid grey;
   border-collapse: collapse;
 
-  & > .row:first-child {
+  > .row:first-child {
     font-weight: bold;
   }
 
-  & .cell {
+  .cell {
     border-block-start: 1px solid grey;
     border-inline-start: 1px solid silver;
 

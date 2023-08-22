@@ -3,10 +3,10 @@ import {
   eachWeekOfInterval,
   eachDayOfInterval,
   previousSunday,
-  // addDays,
   endOfMonth,
   endOfWeek,
   isSameDay,
+  isSunday,
   format,
 } from "date-fns";
 import "./Calendar.css";
@@ -14,7 +14,7 @@ import FilmInfo from "./FilmInfo";
 import { Input } from "./Table";
 
 export default function Calendar({ filmInfos }: { filmInfos: FilmInfo[] }) {
-  const [monthStart, setMonthStart] = useState(new Date("2023-4"));
+  const [monthStart, setMonthStart] = useState(new Date("2023-04"));
   const sortInfos = filmInfos
     .slice()
     .sort((a, b) =>
@@ -30,9 +30,7 @@ export default function Calendar({ filmInfos }: { filmInfos: FilmInfo[] }) {
       <label>
         <input
           type="month"
-          defaultValue={
-            format(monthStart, "yyyy-MM")
-          }
+          defaultValue={format(monthStart, "yyyy-MM")}
           onChange={(e) => setMonthStart(new Date(e.target.value))}
         />
       </label>
@@ -49,29 +47,25 @@ function Month({
   filmInfos: FilmInfo[];
 }) {
   const weeks = eachWeekOfInterval({
-    start: monthStart.getDay() ? previousSunday(monthStart) : monthStart,
+    start: isSunday(monthStart) ? monthStart : previousSunday(monthStart),
     end: endOfMonth(monthStart),
   }).map((sun) => (
     <li key={sun.getTime()}>
-      {
-        <ul className="grid week">
-          {eachDayOfInterval({ start: sun, end: endOfWeek(sun) }).map(
-            (date) => (
-              <Day
-                key={date.getTime()}
-                date={date}
-                curMonth={monthStart.getMonth()}
-              >
-                <Agenda
-                  dayFilmInfos={filmInfos.filter((filmInfo) =>
-                    isSameDay(filmInfo.timeStart, date)
-                  )}
-                />
-              </Day>
-            )
-          )}
-        </ul>
-      }
+      <ul className="grid week">
+        {eachDayOfInterval({ start: sun, end: endOfWeek(sun) }).map((date) => (
+          <Day
+            key={date.getTime()}
+            date={date}
+            curMonth={monthStart.getMonth()}
+          >
+            <Agenda
+              dayFilmInfos={filmInfos.filter((filmInfo) =>
+                isSameDay(filmInfo.timeStart, date)
+              )}
+            />
+          </Day>
+        ))}
+      </ul>
     </li>
   ));
 
@@ -108,10 +102,7 @@ function Agenda({ dayFilmInfos: filmInfos }: { dayFilmInfos: FilmInfo[] }) {
   return (
     <div className="agenda">
       {filmInfos.map((info) => (
-        <label
-          key={info.id}
-          className={`grid ${info.isSkipped ? "skipped" : ""}`}
-        >
+        <label key={info.id} className={"grid" + info.isSkippedClass}>
           <div>{info.name}</div>
           <div>{info.interval}</div>
           <Input name="join" info={info} />
@@ -120,20 +111,3 @@ function Agenda({ dayFilmInfos: filmInfos }: { dayFilmInfos: FilmInfo[] }) {
     </div>
   );
 }
-
-/*   let date = previousSunday(monthStart);
-  let day = firstDayWeek;
-  const weeks = [];
-  while (date.getTime() <= lastDate.getTime()) {
-    weeks.push(
-      <li key={date.getTime()}>
-        <ul className="grid week">
-          {new Array(7).fill("").map((_, i) => (
-            <li key={i} className="cell">
-              {date < monthStart ? "" : (date = addDays(date, 1)).getDate()}
-            </li>
-          ))}
-        </ul>
-      </li>
-    );
-  } */

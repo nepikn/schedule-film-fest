@@ -1,4 +1,5 @@
 .calendar {
+  --gap-cal: 1ex;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -7,58 +8,58 @@
   & input {
     text-align: center;
   }
+}
 
-  .table {
-    .grid.week {
-      grid-template-columns: repeat(7, 1fr);
+.table {
+  .grid.week {
+    grid-template-columns: repeat(7, 1fr);
+  }
+
+  .grid.month {
+    grid-template-rows: repeat(6, max-content);
+  }
+
+  .grid.cell {
+    grid-template-rows: repeat(2, max-content);
+    text-align: end;
+    line-height: 1;
+
+    &:nth-child(7n + 1) {
+      border-inline-start: none;
     }
 
-    .grid.month {
-      grid-template-rows: repeat(6, max-content);
-    }
+    > * {
+      padding: var(--gap-cal);
 
-    .grid.cell {
-      grid-template-rows: repeat(2, max-content);
-      text-align: end;
-      line-height: 1;
-
-      &:nth-child(7n + 1) {
-        border-inline-start: none;
-      }
-
-      > * {
-        padding: 1ex;
-
-        &.agenda {
-          padding-bottom: 2ex;
-        }
+      &:last-child {
+        padding-bottom: calc(var(--gap-cal) * 2);
       }
     }
   }
+}
 
-  .agenda {
-    gap: 1ex;
-    align-items: start;
-    max-height: 50vh;
-    overflow-y: auto;
+.agenda {
+  gap: var(--gap-cal);
+  align-items: start;
+  max-height: 50vh;
+  overflow-y: auto;
 
-    .skipped {
-      color: gray;
+  .skipped {
+    color: gray;
+  }
+
+  .grid {
+    grid-template-columns: 1fr auto;
+    grid-template-areas: "name input" "interval input";
+    gap: 0 var(--gap-cal);
+    margin-top: var(--gap-cal);
+
+    &:first-child {
+      margin-top: 0;
     }
+  }
 
-    .grid {
-      grid-template-columns: 1fr auto;
-      grid-template-areas: "name input" "interval input";
-      gap: 0 1ex;
-      margin-top: 1ex;
-
-      &:first-child {
-        margin-top: 0;
-      }
-    }
-
-    & input {
-      grid-area: input;
-    }
+  & input {
+    grid-area: input;
   }
 }
