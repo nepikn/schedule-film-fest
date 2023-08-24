@@ -20,5 +20,6 @@
 
 ## 主要技術
 
+- Vite
 - React
 - TypeScript
